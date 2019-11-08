@@ -1,6 +1,5 @@
 import os, sys
 from datetime import datetime
-from hashlib import md5
 
 class FileCompare(object):
     def __init__(self, source, destination):
@@ -8,6 +7,11 @@ class FileCompare(object):
         self.not_found = {}
         self.mis_match = {}
         self.matched = True
+        sep = os.sep
+        if not source.endswith(sep):
+            source += sep
+        if not destination.endswith(sep):
+            destination += sep
         self.source = source
         self.destination = destination
         self.get_files()
@@ -49,25 +53,28 @@ class FileCompare(object):
         else:
             if self.not_found:
                 not_found += "Missing Files\n" + "="*36 + "\n"
-                for key, value in self.not_found.iteritems():
+                for key, value in self.not_found.items():
                     not_found += value + "\n"
                 output_Str += not_found + "\n"*2
             if self.mis_match:
                 mis_match += "Mismatched Files | Source | Source Size (KB)| Destination | Destination Size(KB)\n" + "="*80 + "\n"
-                for key, value in self.mis_match.iteritems():
+                for key, value in self.mis_match.items():
                     mis_match += value['source'] + " - " + str(value['source_size']/1024.0) + " : " + value['dest'] + " - " + str(value['dest_size']/1024.0) + "\n"
                 output_Str += mis_match
         return output_Str
 
-if __name__ == '__main__':
+def main():
     source = ""
     destination = ""
     try:
         source = sys.argv[1]
         destination = sys.argv[2]
         compare = FileCompare(source, destination)
-        print compare.get_report()
+        print(compare.get_report())
     except IndexError:
-        print "Source and Destination required. eg: python compare.py /path/to/source /path/to/destination"
+        print("Source and Destination required. eg: python compare.py /path/to/source /path/to/destination")
     except Exception as e:
-        print e
+        print(e)
+
+if __name__ == '__main__':
+    main()

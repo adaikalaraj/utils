@@ -1,7 +1,17 @@
 from setuptools import setup
 
 setup(
-    name='utility',          # This is the name of your PyPI-package.
-    version='0.1',           # Update the version number for new releases
-    scripts=['compare.py']   # The name of your scipt, and also the command you'll be using for calling it
+    name='dircompare',
+    version='0.1.1',
+    author='Adaikalaraj',
+    description='Compare two directories',
+    long_description=open('README.md').read(),
+    url='https://github.com/adaikalaraj/utils',
+    zip_safe=False,
+    scripts=['dircompare.py'],
+    entry_points={
+        "console_scripts": [
+            "dircompare=dircompare:main",
+        ]
+    },
 )
